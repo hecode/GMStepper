@@ -3,6 +3,7 @@
 //  GMStepper
 //
 //  Created by Gunay Mert Karadogan on 1/7/15.
+//  Updated by Ibrahim Beltagy on 08/03/2022
 //  Copyright © 2015 Gunay Mert Karadogan. All rights reserved.
 //
 
@@ -68,16 +69,30 @@ import UIKit
     }
 
     /// Text on the left button. Be sure that it fits in the button. Defaults to "−".
-    @objc @IBInspectable public var leftButtonText: String = "−" {
+    @objc @IBInspectable public var leftButtonText: String = "" {
         didSet {
             leftButton.setTitle(leftButtonText, for: .normal)
         }
     }
 
     /// Text on the right button. Be sure that it fits in the button. Defaults to "+".
-    @objc @IBInspectable public var rightButtonText: String = "+" {
+    @objc @IBInspectable public var rightButtonText: String = "" {
         didSet {
             rightButton.setTitle(rightButtonText, for: .normal)
+        }
+    }
+    
+    /// Image on the left button. Be sure that it fits in the button. Defaults to "−".
+    @objc @IBInspectable public var leftButtonImage: UIImage = UIImage() {
+        didSet {
+            leftButton.setImage(leftButtonImage, for: .normal)
+        }
+    }
+
+    /// Image on the right button. Be sure that it fits in the button. Defaults to "+".
+    @objc @IBInspectable public var rightButtonImage: UIImage = UIImage() {
+        didSet {
+            rightButton.setImage(rightButtonImage, for: .normal)
         }
     }
 
@@ -101,7 +116,7 @@ import UIKit
     }
 
     /// Font of the buttons. Defaults to AvenirNext-Bold, 20.0 points in size.
-    @objc public var buttonsFont = UIFont(name: "AvenirNext-Bold", size: 20.0)! {
+    @objc public var buttonsFont = UIFont(name: "DINNextLTArabic-Regular", size: 14.0)! {
         didSet {
             for button in [leftButton, rightButton] {
                 button.titleLabel?.font = buttonsFont
@@ -124,7 +139,7 @@ import UIKit
     }
 
     /// Font of the middle label. Defaults to AvenirNext-Bold, 25.0 points in size.
-    @objc public var labelFont = UIFont(name: "AvenirNext-Bold", size: 25.0)! {
+    @objc public var labelFont = UIFont(name: "DINNextLTArabic-Regular", size: 14.0)! {
         didSet {
             label.font = labelFont
         }
@@ -312,15 +327,18 @@ import UIKit
         formatter.minimumIntegerDigits = 1
         formatter.minimumFractionDigits = showIntegerIfDoubleIsInteger ? 0 : digits
         formatter.maximumFractionDigits = digits
+        formatter.locale = Locale(identifier: "en_US")
     }
 
     public override func layoutSubviews() {
-        let buttonWidth = bounds.size.width * ((1 - labelWidthWeight) / 2)
-        let labelWidth = bounds.size.width * labelWidthWeight
+//        let buttonWidth = bounds.size.width * ((1 - labelWidthWeight) / 2)
+//        let labelWidth = bounds.size.width * labelWidthWeight
+        let labelWidth = 45
+        let buttonWidth = 50
 
-        leftButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: bounds.size.height)
-        label.frame = CGRect(x: buttonWidth, y: 0, width: labelWidth, height: bounds.size.height)
-        rightButton.frame = CGRect(x: labelWidth + buttonWidth, y: 0, width: buttonWidth, height: bounds.size.height)
+        leftButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: Int(bounds.size.height))
+        label.frame = CGRect(x: CGFloat(buttonWidth), y: 0, width: CGFloat(labelWidth), height: bounds.size.height)
+        rightButton.frame = CGRect(x: Int(labelWidth) + buttonWidth, y: 0, width: buttonWidth, height: Int(bounds.size.height))
 
         labelMaximumCenterX = label.center.x + labelSlideLength
         labelMinimumCenterX = label.center.x - labelSlideLength
